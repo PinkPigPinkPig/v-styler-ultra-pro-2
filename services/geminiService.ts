@@ -14,9 +14,10 @@ const getAI = () => {
   
   // Nếu không có, thử lấy từ process.env (trường hợp chạy trên IDX/Cloud đặc biệt) hoặc window.aistudio
   if (!apiKey) {
-    // @ts-ignore
-    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
-      apiKey = process.env.API_KEY;
+    // @ts-ignore - process may not be defined in browser environment
+    const processEnv = typeof process !== 'undefined' ? (process as any)?.env : null;
+    if (processEnv?.API_KEY) {
+      apiKey = processEnv.API_KEY;
     }
   }
 
